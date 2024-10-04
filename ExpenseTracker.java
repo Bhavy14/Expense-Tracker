@@ -1,126 +1,97 @@
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Scanner;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 
-class Expense {
-    private Date date;
+class Expense 
+{
+    private LocalDate date;
     private double amount;
     private String description;
     private String category;
 
-    public Expense(Date date, double amount, String description, String category) {
+    public Expense(LocalDate date, double amount, String description, String category) 
+    {
         this.date = date;
         this.amount = amount;
         this.description = description;
         this.category = category;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
     @Override
-    public String toString() {
-        return "Expense{" +
-                "Date=" + date +
-                ", Amount=" + amount +
-                ", Description='" + description + '\'' +
-                ", Category='" + category + '\'' +
-                '}';
+    public String toString() 
+    {
+        return "Expense { Date = " + date + ", Amount = " + amount + ", Description = " + description + ", Category = " + category + " }";
     }
 }
 
-public class ExpenseTracker {
-    private List<Expense> expenses;
+class Income 
+{
+    private LocalDate date;
+    private double amount;
+    private String source;
 
-    public ExpenseTracker() {
-        // Using ArrayList which implements List interface
-        expenses = new ArrayList<Expense>();
-
+    public Income(LocalDate date, double amount, String source) 
+    {
+        this.date = date;
+        this.amount = amount;
+        this.source = source;
     }
 
-    // Add an expense to the collection
-    public void addExpense(Expense expense) {
-        expenses.add(expense);
+    @Override
+    public String toString() 
+    {
+        return "Income { Date = " + date + ", Amount = " + amount + ", Source = " + source + " }";
+    }
+}
+
+// Manages both expenses and incomes
+public class ExpenseTracker 
+{
+    private List<Expense> expenseList = new ArrayList<>();
+    private List<Income> incomeList = new ArrayList<>();
+
+    // Add an expense
+    public void addExpense(Expense expense) 
+    {
+        expenseList.add(expense);
     }
 
-    // Display all expenses stored in the collection
-    public void displayExpenses() {
-        if (expenses.isEmpty()) {
+    // Add income
+    public void addIncome(Income income) 
+    {
+        incomeList.add(income);
+    }
+
+    // Display all expenses
+    public void displayExpenses() 
+    {
+        if (expenseList.isEmpty()) 
+        {
             System.out.println("No expenses recorded.");
-        } else {
-            for (Expense expense : expenses) {
+        } 
+        else 
+        {
+            System.out.println("\nList of Expenses:");
+            for (Expense expense : expenseList) 
+            {
                 System.out.println(expense);
             }
         }
     }
 
-    public static void main(String[] args) {
-        ExpenseTracker tracker = new ExpenseTracker();
-        Scanner scanner = new Scanner(System.in);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        while (true) {
-            System.out.println("\nExpense Tracker Menu:");
-            System.out.println("1. Add Expense");
-            System.out.println("2. View Expenses");
-            System.out.println("3. Exit");
-
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // consume newline
-
-            switch (choice) {
-                case 1:
-                    try {
-                        System.out.println("Enter date (yyyy-MM-dd): ");
-                        String dateInput = scanner.nextLine();
-                        Date date = dateFormat.parse(dateInput);
-
-                        System.out.println("Enter amount: ");
-                        double amount = scanner.nextDouble();
-                        scanner.nextLine(); // consume newline
-
-                        System.out.println("Enter description: ");
-                        String description = scanner.nextLine();
-
-                        System.out.println("Enter category (e.g., food, bills): ");
-                        String category = scanner.nextLine();
-
-                        Expense newExpense = new Expense(date, amount, description, category);
-                        tracker.addExpense(newExpense);
-                        System.out.println("Expense added successfully!");
-
-                    } catch (ParseException e) {
-                        System.out.println("Invalid date format. Please try again.");
-                    }
-                    break;
-
-                case 2:
-                    tracker.displayExpenses();
-                    break;
-
-                case 3:
-                    System.out.println("Exiting...");
-                    scanner.close();
-                    return;
-
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+    // Display all incomes
+    public void displayIncomes() 
+    {
+        if (incomeList.isEmpty()) 
+        {
+            System.out.println("No income recorded.");
+        } 
+        else 
+        {
+            System.out.println("\nList of Incomes:");
+            for (Income income : incomeList) 
+            {
+                System.out.println(income);
             }
         }
     }
