@@ -1,3 +1,4 @@
+import java.io.*; 
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,5 +67,29 @@ public class CategoryList {
     // Get the list of categories
     public List<Category> getCategories() {
         return categoryList;
+    }
+
+    // Load categories from a file
+    public void loadCategories() {
+        try (BufferedReader br = new BufferedReader(new FileReader("categories.txt"))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                addCategory(new Category(line)); // Add each category from file
+            }
+        } catch (IOException e) {
+            System.out.println("Error loading categories: " + e.getMessage());
+        }
+    }
+
+    // Save categories to a file
+    public void saveCategories() {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter("categories.txt"))) {
+            for (Category category : categoryList) {
+                bw.write(category.getName());
+                bw.newLine(); // Write each category on a new line
+            }
+        } catch (IOException e) {
+            System.out.println("Error saving categories: " + e.getMessage());
+        }
     }
 }
