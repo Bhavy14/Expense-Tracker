@@ -14,6 +14,7 @@ public class MainTest {
 
         // Load existing data from file
         FileHandler.loadData(tracker);
+        categoryList.loadCategories();
 
         while (true) {
             System.out.println("\n-------------------------- Expense Tracker --------------------------");
@@ -38,7 +39,7 @@ public class MainTest {
                     addIncome(tracker, scanner, dateFormatter);
                     break;
                 case 3:
-                    manageCategories(categoryList, scanner);
+                    manageCategories(categoryList, scanner);//Manage Categories
                     break;
                 case 4:
                     budgetSetting.setmonthlybudget(); // Set monthly budget
@@ -55,6 +56,7 @@ public class MainTest {
                 case 8:
                     // Save data before exiting
                     FileHandler.saveData(tracker);
+                    categoryList.saveCategories();
                     System.out.println("Exiting and saving data...");
                     scanner.close();
                     System.exit(0);
