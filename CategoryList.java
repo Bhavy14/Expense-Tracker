@@ -82,4 +82,10 @@ public class CategoryList
             }
         }
     }
+
+    // Get the list of categories
+    public List<Category> getCategories() 
+    {
+        return categoryList;
+    }
 }

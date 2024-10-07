@@ -27,7 +27,7 @@ public class MainTest
             int choice = scanner.nextInt();
             scanner.nextLine(); // consume newline
 
-            switch (choice) 
+            switch (choice)
             {
                 case 1: // Add Expense
                     addExpense(tracker, categoryList, scanner, dateFormatter);
@@ -55,9 +55,8 @@ public class MainTest
         }
     }
 
-    //Function to add Expense 
-    private static void addExpense(ExpenseTracker tracker, CategoryList categoryList, Scanner scanner, DateTimeFormatter dateFormatter) 
-    {
+    // Function to add Expense
+    private static void addExpense(ExpenseTracker tracker, CategoryList categoryList, Scanner scanner, DateTimeFormatter dateFormatter) {
         try 
         {
             System.out.print("Enter date (dd-MM-yyyy): ");
@@ -70,12 +69,44 @@ public class MainTest
             System.out.print("Enter description: ");
             String description = scanner.nextLine();
 
-            //categoryList is the reference variable of Category Class Obj.
+            // Check for categories and allow category selection or manual entry
             categoryList.viewCategories();
-            System.out.print("Enter category (from the list above): ");
-            String category = scanner.nextLine();
+            String category;
 
-            // Expense class is inside the ExpenseTracker.java file.
+            if (categoryList.getCategories().isEmpty()) 
+            {
+                System.out.print("No categories available. Please enter a new category: ");
+                category = scanner.nextLine();
+                categoryList.addCategory(new Category(category)); // Add the new category
+            } 
+            else 
+            {
+                System.out.print("Enter category index (or enter a new category name): ");
+                String input = scanner.nextLine();
+                
+                // Check if input is a number for index selection
+                try 
+                {
+                    int index = Integer.parseInt(input);
+                    category = categoryList.getCategories().get(index).getName();
+                } 
+                catch (NumberFormatException e) 
+                {
+                    // If it's not a number, assume it's a new category
+                    category = input;
+                    // Add the new category
+                    categoryList.addCategory(new Category(category)); 
+                } 
+                catch (IndexOutOfBoundsException e) 
+                {
+                    System.out.println("Invalid index. Adding new category.");
+                    category = input;
+                    // Add the new category
+                    categoryList.addCategory(new Category(category)); 
+                }
+            }
+
+            // Create and add the expense
             Expense expense = new Expense(date, amount, description, category);
             tracker.addExpense(expense);
             System.out.println("Expense added successfully!");
@@ -91,7 +122,7 @@ public class MainTest
         }
     }
 
-    //Function to add Income 
+    // Function to add Income
     private static void addIncome(ExpenseTracker tracker, Scanner scanner, DateTimeFormatter dateFormatter) 
     {
         try 
@@ -122,7 +153,7 @@ public class MainTest
         }
     }
 
-    //Function to manage Categories 
+    // Function to manage Categories
     private static void manageCategories(CategoryList categoryList, Scanner scanner) 
     {
         while (true) 

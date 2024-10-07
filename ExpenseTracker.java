@@ -20,7 +20,7 @@ class Expense
     @Override
     public String toString() 
     {
-        return "Expense { Date = " + date + ", Amount = " + amount + ", Description = " + description + ", Category = " + category + " }";
+        return "\n\nExpense \n{\n Date : " + date + "\n Amount : " + amount + "\n Description : " + description + "\n Category : " + category + " \n}";
     }
 }
 
